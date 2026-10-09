@@ -1,5 +1,10 @@
 # CareerNexus &mdash; Java 21 Enterprise Job Portal
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-blue?style=for-the-badge&logo=github)](https://nehakumari3748.github.io/Job_portal/)
+[![Deploy Pages](https://github.com/nehakumari3748/Job_portal/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/nehakumari3748/Job_portal/actions/workflows/deploy-pages.yml)
+
+🌐 **Live Website Link:** [https://nehakumari3748.github.io/Job_portal/](https://nehakumari3748.github.io/Job_portal/)
+
 A modern, high-performance **Job Portal Web Application** powered by a pure **Java 21 embedded HTTP Server** and a responsive web frontend.
 
 ---
