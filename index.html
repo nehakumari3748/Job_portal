@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerNexus | Next-Gen Java Powered Job Portal</title>
+  <meta name="description" content="CareerNexus is a modern career platform built on Java 21 and modern web architecture. Search, apply for dream jobs, track application statuses, or manage candidate recruitment pipelines effortlessly.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <!-- ================= SITE HEADER ================= -->
+  <header class="site-header" id="mainHeader">
+    <div class="header-container">
+      
+      <!-- Brand Logo -->
+      <div class="brand-logo" id="brandLogoHome" onclick="App.switchRole('candidate'); App.switchNavTab('jobs');">
+        <div class="brand-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </div>
+        <div class="brand-text">Career<span>Nexus</span></div>
+      </div>
+
+      <!-- Mode Switcher Pill (Candidate Portal vs Recruiter Portal) -->
+      <nav class="role-switcher-pill" aria-label="Portal Mode Navigation">
+        <button class="role-btn active" id="btnSwitchCandidate" title="Switch to Candidate Job Seeker View">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Candidate Portal
+        </button>
+        <button class="role-btn" id="btnSwitchRecruiter" title="Switch to Recruiter Hiring Manager View">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+          Recruiter Portal
+        </button>
+      </nav>
+
+      <!-- User Profile & Action -->
+      <div class="header-actions">
+        <div class="user-profile-badge" id="userProfileBadge">
+          <div class="avatar-initials" id="userAvatarInitials">NK</div>
+          <div class="user-info-text">
+            <span class="user-display-name" id="userDisplayName">Neha Kumari</span>
+            <span class="user-role-label" id="userRoleLabel">Candidate</span>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-sm" id="btnAuthTrigger">Logout</button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= MAIN WRAPPER ================= -->
+  <main class="main-wrapper" id="mainContentArea">
+
+    <!-- ================= HERO BANNER ================= -->
+    <section class="hero-banner" id="heroBannerSection">
+      <div class="hero-content">
+        <div class="hero-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Java 21 Enterprise Career Platform
+        </div>
+        <h1 class="hero-title">Find Your Next Big <span>Career Leap</span></h1>
+        <p class="hero-subtitle">
+          Connect directly with innovative tech organizations. Search curated openings, submit applications in one click, and track real-time hiring progress with absolute transparency.
+        </p>
+
+        <div class="hero-stats-row">
+          <div class="stat-item">
+            <span class="stat-number" id="heroJobsCount">8+</span>
+            <span class="stat-label">Active Opportunities</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Verified Tech Teams</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">&lt; 24h</span>
+            <span class="stat-label">Average Response Time</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 1: CANDIDATE PORTAL VIEW
+         ==================================================================== -->
+    <section id="candidatePortalView" class="portal-section">
+      
+      <!-- Candidate Navigation Tabs -->
+      <nav class="portal-nav-tabs" aria-label="Candidate Sections">
+        <button class="nav-tab-btn active" data-tab="jobs" id="tabBtnCandidateJobs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          Explore Available Jobs
+          <span class="nav-tab-counter" id="candidateJobsCounter">8</span>
+        </button>
+
+        <button class="nav-tab-btn" data-tab="applications" id="tabBtnCandidateApps">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          My Applications
+          <span class="nav-tab-counter" id="candidateAppsCountBadge">0</span>
+        </button>
+      </nav>
+
+      <!-- TAB PANEL 1: EXPLORE AVAILABLE JOBS -->
+      <div class="tab-panel" id="tab-panel-jobs" style="display: block;">
+        
+        <!-- Search & Multi-Filters Card -->
+        <div class="filter-container-card">
+          <div class="search-primary-row">
+            <div class="search-input-wrapper">
+              <span class="search-icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </span>
+              <input type="text" id="candidateSearchInput" class="search-input" placeholder="Search by job title, company name, skill (e.g. Java, React, Cloud, Python)..." autocomplete="off">
+            </div>
+          </div>
+
+          <div class="filter-controls-row">
+            <!-- Filter by Role -->
+            <div class="filter-group">
+              <label for="candidateRoleFilter">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                Role:
+              </label>
+              <select id="candidateRoleFilter">
+                <option value="">All Roles</option>
+              </select>
+            </div>
+
+            <!-- Filter by Location -->
+            <div class="filter-group">
+              <label for="candidateLocationFilter">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                Location:
+              </label>
+              <select id="candidateLocationFilter">
+                <option value="">All Locations</option>
+              </select>
+            </div>
+
+            <!-- Filter by Job Type -->
+            <div class="filter-group">
+              <label for="candidateTypeFilter">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                Job Type:
+              </label>
+              <select id="candidateTypeFilter">
+                <option value="">All Types</option>
+                <option value="Full-time">Full-time</option>
+                <option value="Remote">Remote</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+
+            <button class="btn-clear-filters" id="btnClearFilters">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              Reset Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Search Meta Count -->
+        <div class="search-results-meta">
+          <span id="jobResultsCount">Loading available openings...</span>
+          <span>Showing verified live postings</span>
+        </div>
+
+        <!-- Job Cards Grid -->
+        <div class="jobs-grid" id="jobsGridContainer">
+          <!-- Populated dynamically via candidate.js -->
+        </div>
+
+      </div>
+
+      <!-- TAB PANEL 2: MY APPLICATION STATUS -->
+      <div class="tab-panel" id="tab-panel-applications" style="display: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 800;">My Submitted Applications</h2>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Track real-time hiring progress, interview invitations, and recruiter feedback.</p>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="Candidate.loadApplications()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+            Refresh Status
+          </button>
+        </div>
+
+        <div class="my-applications-list" id="candidateApplicationsContainer">
+          <!-- Populated dynamically via candidate.js -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ====================================================================
+         SECTION 2: RECRUITER PORTAL VIEW
+         ==================================================================== -->
+    <section id="recruiterPortalView" class="portal-section" style="display: none;">
+
+      <!-- Recruiter Metrics Cards -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-card-info">
+            <span class="metric-value" id="metricTotalJobs">0</span>
+            <span class="metric-title">Active Job Listings</span>
+          </div>
+          <div class="metric-icon-box metric-icon-blue">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-info">
+            <span class="metric-value" id="metricTotalApps">0</span>
+            <span class="metric-title">Total Applications</span>
+          </div>
+          <div class="metric-icon-box metric-icon-purple">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-info">
+            <span class="metric-value" id="metricInReview">0</span>
+            <span class="metric-title">Under Review</span>
+          </div>
+          <div class="metric-icon-box metric-icon-amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-card-info">
+            <span class="metric-value" id="metricShortlisted">0</span>
+            <span class="metric-title">Shortlisted &amp; Interviews</span>
+          </div>
+          <div class="metric-icon-box metric-icon-emerald">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recruiter Navigation Tabs -->
+      <nav class="portal-nav-tabs" aria-label="Recruiter Sections">
+        <button class="nav-tab-btn active" data-tab="jobs-mgmt" id="tabBtnRecruiterJobs">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          Manage Jobs (Add, Edit, Delete)
+        </button>
+
+        <button class="nav-tab-btn" data-tab="applicants" id="tabBtnRecruiterApplicants">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          Applicant Pipeline &amp; Review
+          <span class="nav-tab-counter" id="recruiterAppsCountBadge">0</span>
+        </button>
+      </nav>
+
+      <!-- RECRUITER TAB 1: MANAGE JOBS -->
+      <div class="tab-panel" id="tab-panel-jobs-mgmt" style="display: block;">
+        <div class="data-table-container">
+          <div class="table-header-bar">
+            <div>
+              <h3 class="table-title">Your Active Job Listings</h3>
+              <p style="font-size: 0.825rem; color: var(--text-secondary);">Create, update, or remove job opportunities published to candidates.</p>
+            </div>
+            <button class="btn btn-primary" onclick="Recruiter.openAddJobModal()" id="btnOpenAddJob">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              Post New Job
+            </button>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Job Title &amp; Details</th>
+                  <th>Department / Role</th>
+                  <th>Location</th>
+                  <th>Salary Range</th>
+                  <th>Applicants</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="recruiterJobsTableBody">
+                <!-- Populated via recruiter.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECRUITER TAB 2: APPLICANT PIPELINE -->
+      <div class="tab-panel" id="tab-panel-applicants" style="display: none;">
+        <div class="data-table-container">
+          <div class="table-header-bar">
+            <div>
+              <h3 class="table-title">Candidate Applications Pipeline</h3>
+              <p style="font-size: 0.825rem; color: var(--text-secondary);">Evaluate candidate submissions, review credentials, and advance stages.</p>
+            </div>
+
+            <!-- Filters for applicants -->
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <div class="filter-group">
+                <label for="recruiterAppJobFilter">Job:</label>
+                <select id="recruiterAppJobFilter">
+                  <option value="">All Jobs</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label for="recruiterAppStatusFilter">Status:</label>
+                <select id="recruiterAppStatusFilter">
+                  <option value="">All Statuses</option>
+                  <option value="Applied">Applied</option>
+                  <option value="Under Review">Under Review</option>
+                  <option value="Shortlisted">Shortlisted</option>
+                  <option value="Interview Scheduled">Interview Scheduled</option>
+                  <option value="Accepted">Accepted</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="portal-table">
+              <thead>
+                <tr>
+                  <th>Candidate Info</th>
+                  <th>Applied Role</th>
+                  <th>Experience</th>
+                  <th>Hiring Status</th>
+                  <th>Cover Note &amp; Notes</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recruiterApplicationsTableBody">
+                <!-- Populated via recruiter.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= SITE FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <strong>CareerNexus</strong> &mdash; Java 21 Enterprise Portal
+      </div>
+
+      <div class="footer-badge" id="serverStatusBadge">
+        <span class="status-dot" id="serverStatusDot"></span>
+        <span id="serverStatusText">Checking Java Server Connection...</span>
+      </div>
+
+      <div>
+        <span>Demo Portals: Candidate &amp; Recruiter Integrated</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====================================================================
+       MODALS
+       ==================================================================== -->
+
+  <!-- MODAL 1: JOB DETAILS MODAL -->
+  <div class="modal-overlay" id="jobDetailsModal">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title" id="detailJobTitle">Job Title</h2>
+          <div style="font-size: 0.875rem; color: var(--text-secondary); font-weight: 600; margin-top: 2px;">
+            <span id="detailJobCompany">Company</span> &bull; <span id="detailJobLocation">Location</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="App.closeModal('jobDetailsModal')" title="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 1.5rem; background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md);">
+          <div style="flex: 1; min-width: 140px;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Employment Type</span>
+            <strong id="detailJobType">Full-time</strong>
+          </div>
+          <div style="flex: 1; min-width: 140px;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Compensation</span>
+            <strong id="detailJobSalary" style="color: var(--primary);">-</strong>
+          </div>
+          <div style="flex: 1; min-width: 140px;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Experience</span>
+            <strong id="detailJobExperience">-</strong>
+          </div>
+          <div style="flex: 1; min-width: 140px;">
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Application Deadline</span>
+            <strong id="detailJobDeadline">-</strong>
+          </div>
+        </div>
+
+        <h4 style="margin-bottom: 0.5rem;">About the Opportunity</h4>
+        <p id="detailJobDescription" style="font-size: 0.925rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem;"></p>
+
+        <div id="detailRespSection" style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 0.5rem;">Key Responsibilities</h4>
+          <ul id="detailJobResponsibilities" style="padding-left: 1.25rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;"></ul>
+        </div>
+
+        <div id="detailReqSection" style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 0.5rem;">Required Qualifications &amp; Skills</h4>
+          <ul id="detailJobRequirements" style="padding-left: 1.25rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;"></ul>
+        </div>
+
+        <div id="detailBenSection" style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 0.5rem;">Perks &amp; Benefits</h4>
+          <ul id="detailJobBenefits" style="padding-left: 1.25rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.7;"></ul>
+        </div>
+
+        <h4 style="margin-bottom: 0.5rem;">Relevant Skill Tags</h4>
+        <div id="detailJobTags" style="display: flex; flex-wrap: wrap; gap: 0.4rem;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="App.closeModal('jobDetailsModal')">Close</button>
+        <button class="btn btn-primary" id="btnDetailApplyNow">Apply for this Job</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: APPLY FOR JOB MODAL -->
+  <div class="modal-overlay" id="applyJobModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <h2 class="modal-title">Job Application</h2>
+          <div style="font-size: 0.85rem; color: var(--text-secondary);">
+            Applying for <strong id="applyModalJobTitle">-</strong> at <span id="applyModalCompanyName">-</span>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="App.closeModal('applyJobModal')" title="Close">&times;</button>
+      </div>
+
+      <form id="jobApplicationForm">
+        <div class="modal-body">
+          <input type="hidden" id="applyJobIdInput">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="applyFullName">Full Name <span class="required">*</span></label>
+              <input type="text" id="applyFullName" class="form-control" placeholder="e.g. Neha Kumari" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="applyEmail">Email Address <span class="required">*</span></label>
+              <input type="email" id="applyEmail" class="form-control" placeholder="name@example.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="applyPhone">Phone Number</label>
+              <input type="tel" id="applyPhone" class="form-control" placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="applyExperience">Years of Relevant Experience</label>
+              <select id="applyExperience" class="form-control">
+                <option value="0">Fresher / Graduate (0 years)</option>
+                <option value="1">1 year</option>
+                <option value="2">2 years</option>
+                <option value="3">3 years</option>
+                <option value="4">4 years</option>
+                <option value="5">5+ years</option>
+                <option value="8">8+ years (Senior/Staff)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="applyPortfolio">Portfolio / GitHub / LinkedIn URL</label>
+            <input type="url" id="applyPortfolio" class="form-control" placeholder="https://github.com/yourhandle or https://linkedin.com/in/...">
+          </div>
+
+          <!-- Resume Attachment Box -->
+          <div class="form-group">
+            <label class="form-label">Resume / CV Attachment (PDF, DOCX)</label>
+            <div class="file-upload-dropzone" onclick="document.getElementById('resumeFileInput').click()">
+              <div class="file-upload-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              </div>
+              <div style="font-size: 0.9rem; font-weight: 600;" id="resumeUploadLabel">Click to select or drag Resume file here</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px;">Supports PDF, DOC, DOCX (Max 10MB)</div>
+              <input type="file" id="resumeFileInput" style="display: none;" accept=".pdf,.doc,.docx" onchange="document.getElementById('resumeUploadLabel').textContent = this.files[0] ? 'Attached: ' + this.files[0].name : 'Click to select Resume file'">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="applyCoverLetter">Cover Letter / Note to Recruiter</label>
+            <textarea id="applyCoverLetter" class="form-control" rows="3" placeholder="Briefly introduce your strengths and why you're a great fit for this position..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('applyJobModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitApplication">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: RECRUITER ADD / EDIT JOB MODAL -->
+  <div class="modal-overlay" id="manageJobModal">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <h2 class="modal-title" id="manageJobModalTitle">Post a New Job Opening</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('manageJobModal')" title="Close">&times;</button>
+      </div>
+
+      <form id="manageJobForm">
+        <div class="modal-body">
+          <input type="hidden" id="jobIdHiddenInput">
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="inputJobTitle">Job Title <span class="required">*</span></label>
+              <input type="text" id="inputJobTitle" class="form-control" placeholder="e.g. Lead Java Backend Architect" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputJobCompany">Company Name <span class="required">*</span></label>
+              <input type="text" id="inputJobCompany" class="form-control" placeholder="e.g. Nexus Innovations" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="inputJobRole">Role / Domain Category <span class="required">*</span></label>
+              <select id="inputJobRole" class="form-control" required>
+                <option value="Engineering">Engineering</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+                <option value="Data / AI">Data / AI</option>
+                <option value="DevOps">DevOps</option>
+                <option value="Design">Design</option>
+                <option value="Product">Product</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputJobLocation">Job Location <span class="required">*</span></label>
+              <input type="text" id="inputJobLocation" class="form-control" placeholder="e.g. Bangalore, India (Hybrid) or Remote" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="inputJobType">Job Type</label>
+              <select id="inputJobType" class="form-control">
+                <option value="Full-time">Full-time</option>
+                <option value="Remote">Remote</option>
+                <option value="Contract">Contract</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputJobExperience">Experience Required</label>
+              <input type="text" id="inputJobExperience" class="form-control" placeholder="e.g. 3-5 years">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="inputJobSalary">Salary / Compensation Range</label>
+              <input type="text" id="inputJobSalary" class="form-control" placeholder="e.g. ₹25,00,000 - ₹35,00,000 / yr or $130k - $160k">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="inputJobDeadline">Application Deadline</label>
+              <input type="date" id="inputJobDeadline" class="form-control">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputJobRecruiterEmail">Hiring Contact / Recruiter Email</label>
+            <input type="email" id="inputJobRecruiterEmail" class="form-control" placeholder="talent@company.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputJobDescription">Job Overview &amp; Description <span class="required">*</span></label>
+            <textarea id="inputJobDescription" class="form-control" rows="3" placeholder="Provide a compelling overview of the role, product team, and company culture..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputJobResponsibilities">Key Responsibilities (One item per line)</label>
+            <textarea id="inputJobResponsibilities" class="form-control" rows="3" placeholder="Design scalable microservices&#10;Optimize database latency&#10;Mentor junior developers"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputJobRequirements">Requirements &amp; Qualifications (One item per line)</label>
+            <textarea id="inputJobRequirements" class="form-control" rows="3" placeholder="Bachelor's degree in Computer Science&#10;Proficiency in Java 21, Spring Boot&#10;Strong communication skills"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputJobBenefits">Benefits &amp; Perks (One item per line)</label>
+            <textarea id="inputJobBenefits" class="form-control" rows="2" placeholder="Comprehensive Health Insurance&#10;Flexible remote working options&#10;Annual learning allowance"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="inputJobTags">Skill Tags (Comma separated)</label>
+            <input type="text" id="inputJobTags" class="form-control" placeholder="Java, Spring Boot, Microservices, REST, Docker">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('manageJobModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="btnSubmitJobForm">Save Job Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: RECRUITER APPLICANT REVIEW & STATUS UPDATE MODAL -->
+  <div class="modal-overlay" id="reviewApplicationModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">Review Applicant</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('reviewApplicationModal')" title="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="reviewAppId">
+
+        <div style="background: var(--bg-main); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem; border: 1px solid var(--border-light);">
+          <div style="font-size: 1.25rem; font-weight: 800;" id="reviewModalCandidateName">Candidate Name</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 2px;">
+            <span id="reviewModalCandidateEmail">Email</span> &bull; <span id="reviewModalCandidatePhone">Phone</span>
+          </div>
+
+          <div style="margin-top: 0.75rem; font-size: 0.85rem;">
+            <strong>Applied For:</strong> <span id="reviewModalJobTitle">Job</span><br>
+            <strong>Experience:</strong> <span id="reviewModalExperience">-</span> &bull; <strong>Applied Date:</strong> <span id="reviewModalDate">-</span>
+          </div>
+
+          <div style="margin-top: 0.5rem; font-size: 0.85rem;">
+            <strong>Portfolio / Links:</strong> <a id="reviewModalPortfolioLink" href="#" target="_blank" style="color: var(--primary);">View Link</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Cover Letter / Candidate Note:</label>
+          <div id="reviewModalCoverLetter" style="background: #ffffff; border: 1px solid var(--border-light); border-radius: var(--radius-md); padding: 0.85rem; font-size: 0.875rem; color: var(--text-secondary); font-style: italic; max-height: 120px; overflow-y: auto;">
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--border-light); margin: 1.25rem 0;">
+
+        <!-- Status Change Dropdown -->
+        <div class="form-group">
+          <label class="form-label" for="reviewStatusSelect">Update Candidate Status <span class="required">*</span></label>
+          <select id="reviewStatusSelect" class="form-control" style="font-weight: 700;">
+            <option value="Applied">Applied (Initial Intake)</option>
+            <option value="Under Review">Under Review (Screening in Progress)</option>
+            <option value="Shortlisted">Shortlisted (Selected for Next Step)</option>
+            <option value="Interview Scheduled">Interview Scheduled</option>
+            <option value="Accepted">Accepted / Offer Extended</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reviewNotesInput">Internal Feedback / Recruiter Notes (Visible to candidate on tracker):</label>
+          <textarea id="reviewNotesInput" class="form-control" rows="2" placeholder="e.g. Technical interview scheduled for Thursday 2 PM. Interview link sent via email."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="App.closeModal('reviewApplicationModal')">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="Recruiter.handleSaveApplicantStatus()">Update Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: LOGIN MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-card" style="max-width: 460px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Sign In to CareerNexus</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('authModal')" title="Close">&times;</button>
+      </div>
+
+      <form id="loginForm">
+        <div class="modal-body">
+          
+          <!-- Role selector inside login -->
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <button type="button" class="btn btn-secondary auth-role-tab active" data-role="candidate" style="flex: 1;" onclick="App.switchAuthTab('candidate')">
+              Candidate
+            </button>
+            <button type="button" class="btn btn-secondary auth-role-tab" data-role="recruiter" style="flex: 1;" onclick="App.switchAuthTab('recruiter')">
+              Recruiter
+            </button>
+          </div>
+          <input type="hidden" id="loginSelectedRole" value="candidate">
+
+          <p id="authRoleNotice" style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem; text-align: center;">
+            Sign in as a Job Seeker to apply for jobs and track your status.
+          </p>
+
+          <!-- Quick Fill Demo Bar -->
+          <div class="demo-quick-bar">
+            <div>
+              <p>Quick Demo Sign-In</p>
+              <div style="font-size: 0.725rem; color: var(--text-secondary);">One-click fill credentials</div>
+            </div>
+            <div style="display: flex; gap: 0.4rem;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="App.quickFillDemo('candidate')">Candidate</button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="App.quickFillDemo('recruiter')">Recruiter</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginEmail">Email Address</label>
+            <input type="email" id="loginEmail" class="form-control" placeholder="candidate@nexus.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+          </div>
+
+          <div style="font-size: 0.825rem; text-align: center; margin-top: 1rem;">
+            Don't have an account? <a href="#" onclick="App.closeModal('authModal'); App.openRegisterModal();">Register as Candidate</a>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('authModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 6: REGISTER CANDIDATE MODAL -->
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h2 class="modal-title">Create Candidate Account</h2>
+        <button class="modal-close-btn" onclick="App.closeModal('registerModal')" title="Close">&times;</button>
+      </div>
+
+      <form id="registerForm">
+        <div class="modal-body">
+          <input type="hidden" id="regRoleSelect" value="candidate">
+
+          <div class="form-group">
+            <label class="form-label" for="regName">Full Name <span class="required">*</span></label>
+            <input type="text" id="regName" class="form-control" placeholder="e.g. Neha Kumari" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regEmail">Email Address <span class="required">*</span></label>
+            <input type="email" id="regEmail" class="form-control" placeholder="name@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPhone">Phone Number</label>
+            <input type="tel" id="regPhone" class="form-control" placeholder="+91 98765 43210">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="regPassword">Password <span class="required">*</span></label>
+            <input type="password" id="regPassword" class="form-control" placeholder="Create a password" required minlength="6">
+          </div>
+
+          <div style="font-size: 0.825rem; text-align: center;">
+            Already have an account? <a href="#" onclick="App.closeModal('registerModal'); App.openLoginModal();">Sign In</a>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="App.closeModal('registerModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= TOAST CONTAINER ================= -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="js/api.js"></script>
+  <script src="js/candidate.js"></script>
+  <script src="js/recruiter.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
