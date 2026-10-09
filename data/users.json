@@ -1,0 +1,20 @@
+[
+  {
+    "id": "usr-1",
+    "name": "Neha Kumari",
+    "email": "candidate@nexus.com",
+    "password": "password123",
+    "role": "candidate",
+    "headline": "Full Stack Java Developer | UI Enthusiast",
+    "phone": "+91 98765 43210"
+  },
+  {
+    "id": "usr-2",
+    "name": "Vikram Malhotra",
+    "email": "recruiter@nexus.com",
+    "password": "admin123",
+    "role": "recruiter",
+    "company": "Nexus Innovations",
+    "title": "Head of Technical Recruitment"
+  }
+]

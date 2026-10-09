@@ -1,0 +1,25 @@
+# Compiled Java classes and binaries
+bin/
+*.class
+*.jar
+*.war
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and runtime dumps
+*.log
+scratch/
+.agents/

@@ -1,0 +1,9 @@
+.git
+.gitignore
+.vscode
+.idea
+bin/
+*.bat
+*.ps1
+scratch/
+.agents/
